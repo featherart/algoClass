@@ -52,33 +52,64 @@ What's the time complexity?
 
 function Stack(capacity) {
   // implement me...
+  this._storage = {}
+  this._key = 0;
+  this._capacity = capacity;
 }
 
 Stack.prototype.push = function(value) {
   // implement me...
+  if (this._key < this._capacity) {
+    this._storage[this._key++] = value;
+    return this._key;
+  }
+  else {
+    throw new Error('Whoops! You are out of space.');
+  }
 };
-// Time complexity:
+// Time complexity: O(1)
 
 Stack.prototype.pop = function() {
   // implement me...
+  var lastElem = this.peek();
+  delete this._storage.lastElem;
+  return lastElem;
+
+  // alternatively
+  // handles case where last item is getting popped but should use peek, IMO
+  var lastElem = this._storage[--this._key];
+  delete this._storage[this._key];
+  if (this._key < 0) {
+    this._key = 0;
+  }
+  return value;
 };
-// Time complexity:
+// Time complexity: O(1)
 
 Stack.prototype.peek = function() {
   // implement me...
+  var size = this.count();
+  return this._storage[size - 1];
+
+  // alternatively
+  return this._storage[this._key-1];
 };
-// Time complexity:
+// Time complexity: O(1)
 
 Stack.prototype.count = function() {
   // implement me...
+  this._storage.length;
 };
-// Time complexity:
+// Time complexity: O(1)
+
+
 
 
 /*
 *** Exercises:
 
-1. Implement a stack with a min method which returns the minimum element currently in the stack. This method should have O(1) time complexity. Make sure your implementation handles duplicates.
+1. Implement a stack with a min method which returns the minimum element currently in the stack.
+This method should have O(1) time complexity. Make sure your implementation handles duplicates.
 
 2. Sort a stack so that its elements are in ascending order.
 
@@ -87,9 +118,11 @@ Ex: balancedParens( 'sqrt(5*(3+8)/(4-2))' ) => true
 Ex: balancedParens( 'Math.min(5,(6-3))(' ) => false
 
 4. Towers of Hanoi - https://en.wikipedia.org/wiki/Tower_of_Hanoi
-You are given three towers (stacks) and N disks, each of different size. You can move the disks according to three constraints:
+You are given three towers (stacks) and N disks, each of different size. You can move the disks
+according to three constraints:
    1. only one disk can be moved at a time
    2. when moving a disk, you can only use pop (remove the top element) and push (add to the top of a stack)
    3. no disk can be placed on top of a disk that is smaller than it
-The disks begin on tower#1. Write a function that will move the disks from tower#1 to tower#3 in such a way that none of the constraints are violated.
+The disks begin on tower#1. Write a function that will move the disks from tower#1 to tower#3 in
+such a way that none of the constraints are violated.
  */
