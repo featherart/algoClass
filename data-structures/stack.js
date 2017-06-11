@@ -82,16 +82,12 @@ Stack.prototype.pop = function() {
   if (this._key < 0) {
     this._key = 0;
   }
-  return value;
+  return lastElem;
 };
 // Time complexity: O(1)
 
 Stack.prototype.peek = function() {
   // implement me...
-  var size = this.count();
-  return this._storage[size - 1];
-
-  // alternatively
   return this._storage[this._key-1];
 };
 // Time complexity: O(1)
@@ -102,7 +98,20 @@ Stack.prototype.count = function() {
 };
 // Time complexity: O(1)
 
+let stacky = new Stack(5);
+console.log('here it is', stacky.toString())
 
+stacky.push('blah')
+stacky.push('bladdy-bla')
+stacky.push('1234')
+console.log(stacky)
+console.log(stacky.peek())
+//stacky.pop()
+
+//stacky.push('432')
+stacky.push(432)
+stacky.push({ 0 : '443'})
+console.log(stacky)
 
 
 /*
@@ -110,9 +119,13 @@ Stack.prototype.count = function() {
 
 1. Implement a stack with a min method which returns the minimum element currently in the stack.
 This method should have O(1) time complexity. Make sure your implementation handles duplicates.
+*/
 
+/*
 2. Sort a stack so that its elements are in ascending order.
+*/
 
+/*
 3. Given a string, determine if the parenthesis in the string are balanced.
 Ex: balancedParens( 'sqrt(5*(3+8)/(4-2))' ) => true
 Ex: balancedParens( 'Math.min(5,(6-3))(' ) => false

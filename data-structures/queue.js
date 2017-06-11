@@ -27,8 +27,53 @@ Similiar to dequeue, but do not remove element from collection
 myQueue.count()
 => number of elements in queue
 
+ */
 
-*** Additional Exercises:
+function Queue(capacity) {
+  // implement me...
+  this._storage = {};
+  this._capacity = capacity;
+  this._head = 0;
+  this._tail = 0;
+}
+
+Queue.prototype.enqueue = function(value) {
+  // implement me...
+  if (this.count() < this._capacity ) {
+    this._storage[this._tail++] = value;
+    return this.count();
+  } else {
+    throw new Error('Oops! Too much stuff.');
+  }
+};
+// Time complexity: O(1)
+
+Queue.prototype.dequeue = function() {
+  // implement me...
+  if (this.count() === 0) {
+    throw new Error('Nothing to remove.');
+  } else {
+    var element = this._storage[this._head];
+    delete this._storage[this._head];
+    if (this._head < this._tail) this._head++;
+    return element; // always want to return thing your deleting so you have to save it first
+  }
+};
+// Time complexity: O(1)
+
+Queue.prototype.peek = function() {
+  // implement me...
+  return this._storage[this._head];
+};
+
+Queue.prototype.count = function() {
+  // implement me...
+  return this._tail - this._head;
+};
+// Time complexity: O(1)
+
+
+/*** Additional Exercises:
 
 Modify your queue to take a max capacity and return a string if you try to add an element when there's no more room:
 myQueue.enqueue(value)
@@ -44,37 +89,6 @@ queue values - (first)2-5-7-3-6-9(last)
 myQueue.until(7)
 => 3
 What's the time complexity?
-
-
-
-
- */
-
-function Queue(capacity) {
-  // implement me...
-}
-
-Queue.prototype.enqueue = function(value) {
-  // implement me...
-};
-// Time complexity:
-
-Queue.prototype.dequeue = function() {
-  // implement me...
-};
-// Time complexity:
-
-Queue.prototype.peek = function() {
-  // implement me...
-};
-
-Queue.prototype.count = function() {
-  // implement me...
-};
-// Time complexity:
-
-
-
 /*
 *** Exercises:
 
