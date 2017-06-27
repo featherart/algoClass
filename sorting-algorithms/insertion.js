@@ -29,3 +29,43 @@ now repeat for next unsorted element
 (https://en.wikipedia.org/wiki/Shellsort)
 
 */
+
+// fancy splice way
+let insertionSort = function(nums) {
+  for (let i = 1; i < nums.length; i++) {
+    for (let j = 0; j < i; j++) {
+      if (nums[i] < nums[j]) {
+         const spliced = nums.splice(i, 1);
+         console.log('spliced: ', spliced)
+         nums.splice(j, 0, spliced[0]);
+      }
+    }
+  }
+  return nums
+}
+
+let nums = [4, 1, 6, 3, 7]
+console.log(nums)
+
+let sorted = insertionSort(nums)
+console.log(sorted)
+
+// my way
+let insertionSortAgain = function(nums) {
+  for (let i = 0; i < nums.length; i++) {
+    for (let j = 0; j < i; j++) {
+      if (nums[i] < nums[j]) {
+        let holder = nums[i];
+        nums[i] = nums[j];
+        nums[j] = holder;
+      }
+    }
+  }
+  return nums;
+}
+
+let nums2 = [44, 1, 60, 3, 7, 23, 19]
+console.log(nums2)
+
+let sorted2 = insertionSortAgain(nums2)
+console.log(sorted2)

@@ -19,3 +19,52 @@ Variants:
 (https://en.wikipedia.org/wiki/Cocktail_sort)
 
 */
+//
+// function bubbleSort(arr) {
+//   let i = 0
+//
+//   while (i < arr.length - 1) {
+//     for (var j = 0; j < arr.length - 1; j++) {
+//       if (arr[i] > arr[i+1]) {
+//         console.log(arr[i])
+//         console.log(arr[i+1])
+//         console.log(arr)
+//         let holder = arr[i]
+//         arr[i] = arr[i+1]
+//         arr[i+1] = holder
+//         console.log('after sort: ', arr)
+//       }
+//       i++
+//     }
+//   }
+// }
+//
+//
+// let nums = [3, 4, 2, 7, 32]
+// console.log(nums)
+//
+// let sorted = bubbleSort(nums)
+// console.log(sorted)
+//
+
+function bubbleSort(nums) {
+  let swapped
+  do {
+    swapped = false
+    for (let i = 0; i < nums.length - 1; i++) {
+      if (nums[i] > nums[i+1]) {
+        let temp = nums[i]
+        nums[i] = nums[i+1]
+        nums[i+1] = temp
+        swapped = true
+      }
+    }
+  } while (swapped)
+  return nums
+}
+
+let nums = [6, 32, 5, 4, 2, 7, 3]
+console.log(nums)
+
+let sorted = bubbleSort(nums)
+console.log(sorted)

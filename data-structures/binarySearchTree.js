@@ -20,7 +20,8 @@ Return true if value is in tree, false if not
 bsTree.traverseDepthFirst_inOrder(callback)
 => undefined
 Invoke the callback for every node in a depth-first in-order (visit left branch, then current node, than right branch)
-Note: In-Order traversal is most common type for binary trees. For binary search tree, this visits the nodes in ascending order (hence the name).
+Note: In-Order traversal is most common type for binary trees. For binary search tree, this visits the nodes in ascending order
+(hence the name).
 
 bsTree.traverseDepthFirst_preOrder(callback)
 => undefined

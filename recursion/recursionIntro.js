@@ -80,7 +80,9 @@ let fibs = (n) => {
   }
 }
 
-//console.log(fibs(7))
+for (var i = 1; i < 20; i++) {
+  console.log(`${i}. ${fibs(i)}`)
+}
 
 //5. Write a function 'recursiveMultiplier' that takes two arguments, 'arr and num',
 //and multiplies each arr value by num then returns an array of the values.
@@ -97,6 +99,17 @@ let recursiveMultiplier = (arr, num) => {
   }
   multiply(arr, num)
   return multiples
+}
+
+// Bianca's solution, w/out wrapper function
+var recursiveMultiplier2 = function(arr, num) {
+  if(arr.length === 0) {
+    return arr;
+  }
+  var last = arr.pop()
+  recursiveMultiplier2(arr, num);
+  arr.push(last*num);
+  return arr;
 }
 
 let multiples = recursiveMultiplier([ 2, 3, 4 ], 9)
@@ -122,6 +135,7 @@ console.log('reversed: ', reversedArr)
 
 
 // Bianca's solution
+// uses a closure to add the accumulator
 var recursiveReverse = function(arr) {
   var reversedArr = []
   var addItems = function(orderedArr) {

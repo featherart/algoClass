@@ -28,98 +28,158 @@ Similiar to pop, but do not remove element from collection
 myStack.count()
 => number of elements in stack
 
+ */
 
+function Stack(capacity) {
+  // constructor function
+  // underlying structure is an object, aka "storage"
+  // the this is very important, ties it to the context
+  this.capacity = capacity
+  this.storage = {}
+  this.counter = 0 // where we at in the stack
+}
+
+Stack.prototype.push = function(value) {
+  // if there is room add element to end
+  // LIFO
+  if (this.counter < this.capacity) {
+    this.storage[this.counter++] = value
+    return this.counter
+  } else {
+    console.log('Sorry, max capacity has been reached!')
+    return false
+  }
+}
+// Time complexity: O(1)
+
+Stack.prototype.pop = function() {
+  if (this.counter > 0) {
+    let elem = this.storage[--this.counter]
+    delete this.storage[this.counter]
+    return elem
+  } else {
+    console.log('Sorry, nothing left to delete')
+    return false
+  }
+}
+// Time complexity: O(1)
+
+Stack.prototype.peek = function() {
+  // implement me...
+  return this.storage[this.counter - 1]
+
+}
+// Time complexity: O(1)
+
+Stack.prototype.count = function() {
+  // implement me...
+  return this.counter
+}
+// Time complexity: O(1)
+
+let stacky = new Stack(5)
+stacky.push('hi')
+console.log(stacky)
+stacky.push('there')
+console.log(stacky)
+stacky.push('thing')
+
+stacky.push([1, 3, 2])
+
+stacky.push([1, 6, 0])
+console.log(stacky)
+stacky.pop()
+console.log('after pop: ', stacky)
+stacky.pop()
+stacky.pop()
+stacky.pop()
+stacky.pop()
+console.log(stacky)
+stacky.pop()
+console.log(stacky)
+stacky.pop()
+stacky.push([1, 3, 2])
+stacky.push('hi')
+stacky.push('there')
+stacky.push('thing')
+console.log(stacky)
+console.log(stacky.peek())
+console.log(stacky.count())
+/*
 *** Additional Exercises:
 
 Modify your stack to take a max capacity and return a string if you try to add an element when there's no more room:
 myStack.push(value)
-=> "Max capacity already reached. Remove element before adding a new one."
+DONE=> "Max capacity already reached. Remove element before adding a new one."
 
 Create a contains method to check if a value is in the stack:
 myStack.contains('findme')
 => true/false
-What's the time complexity?
+What's the time complexity? O(N)
+*/
+Stack.prototype.contains = function(value) {
+  for ( var key in this.storage ) {
+    if (this.storage[key] === value) {
+      return true
+    }
+  }
+  return false
+}
 
+console.log(stacky.contains('hi'))
+console.log(stacky.contains('hihi'))
+
+/*
 Create an until method to get the number of pops until you get to a certain value:
 stack values - (first)2-5-7-3-6-9(last)
 myStack.until(7)
 => 4
 What's the time complexity?
-
-
-
- */
-
-function Stack(capacity) {
-  // implement me...
-  this._storage = {}
-  this._key = 0;
-  this._capacity = capacity;
+*/
+Stack.prototype.until = function(value) {
+  let num = 0
+  let found = false
+  while (!found && num <= this.counter) {
+    let elem = this.pop()
+    num++
+    if (elem === value) {
+      found = true
+      return num
+    }
+  }
+  return 'sorry, not found!'
 }
-
-Stack.prototype.push = function(value) {
-  // implement me...
-  if (this._key < this._capacity) {
-    this._storage[this._key++] = value;
-    return this._key;
-  }
-  else {
-    throw new Error('Whoops! You are out of space.');
-  }
-};
-// Time complexity: O(1)
-
-Stack.prototype.pop = function() {
-  // implement me...
-  var lastElem = this.peek();
-  delete this._storage.lastElem;
-  return lastElem;
-
-  // alternatively
-  // handles case where last item is getting popped but should use peek, IMO
-  var lastElem = this._storage[--this._key];
-  delete this._storage[this._key];
-  if (this._key < 0) {
-    this._key = 0;
-  }
-  return lastElem;
-};
-// Time complexity: O(1)
-
-Stack.prototype.peek = function() {
-  // implement me...
-  return this._storage[this._key-1];
-};
-// Time complexity: O(1)
-
-Stack.prototype.count = function() {
-  // implement me...
-  this._storage.length;
-};
-// Time complexity: O(1)
-
-let stacky = new Stack(5);
-console.log('here it is', stacky.toString())
-
-stacky.push('blah')
-stacky.push('bladdy-bla')
-stacky.push('1234')
-console.log(stacky)
-console.log(stacky.peek())
-//stacky.pop()
-
-//stacky.push('432')
-stacky.push(432)
-stacky.push({ 0 : '443'})
-console.log(stacky)
-
+console.log(stacky.until('hi'))
+console.log(stacky.until('frank'))
 
 /*
-*** Exercises:
-
 1. Implement a stack with a min method which returns the minimum element currently in the stack.
 This method should have O(1) time complexity. Make sure your implementation handles duplicates.
 */
+
+function MinStack() {
+  this.storage = {}
+  this.minIndex = 0
+}
+
+MinStack.prototype.pushMin = function(element) {
+  if (this.minIndex === 0 || element < this.storage[this.minIndex]) {
+    this.storage[this.minIndex++] = element
+    return this.minIndex
+  }
+}
+
+MinStack.prototype.min = function() {
+  return this.storage[this.minIndex]
+}
+
+let minny = new MinStack()
+console.log(minny)
+minny.pushMin(4)
+console.log(minny)
+console.log(minny.min())
+console.log(minny.pushMin(2))
+console.log(minny.min())
 
 /*
 2. Sort a stack so that its elements are in ascending order.
