@@ -53,33 +53,85 @@ A binary search tree was created by iterating over an array and inserting each e
 */
 
 function BinarySearchTree (value) {
-  this.value = value;
+  this.value = value; // aka root
   this.left = null;
   this.right = null;
 }
 
 BinarySearchTree.prototype.insert = function(value) {
-  // implement me...
+  // implement me...recursively
+  // if (!this.value) {  // no root yet, should not happen
+  //   this.value = value
+  //   return
+  // }
+  if (value <= this.value) {
+    if (this.left) this.left.insert(value)
+    else this.left = new BinarySearchTree(value)
+  } else {
+    if (this.right) this.right.insert(value)
+    else this.right = new BinarySearchTree(value)
+  }
 };
 // Time complexity:
 
-BinarySearchTree.prototype.contains = function(value) {
+BinarySearchTree.prototype.contains = function(value) { // returns true if tree has value
   // implement me...
+  // first if root is value return that
+  if (value === this.value) {
+    return true
+  }
+  if (value > this.value && this.right) {
+    // look right
+    return this.right.contains(value)
+  } else if (value <= this.value && this.left) {
+    // look left
+    return this.left.contains(value)
+  }
+  return false
+
+  // Bianca solution - mine works the same but less fancy
+  // if (this.value === value) return true
+  // if (value < this.value) {
+  //   return !!this.left && this.left.contains(value)
+  // } if (value > this.value) {
+  //   return !!this.right && this.right.contains(value)
+  // }
+  // return false
 };
 // Time complexity:
 
 BinarySearchTree.prototype.traverseDepthFirst_inOrder = function(fn) {
   // implement me...
+  // first go all the way to the left
+  // then the parent
+  // then the right
+  // then the parent parent (?)
+  // base case: traverse when you are a leaf
+  if (!this.left && !this.right) {
+    return fn(this)
+  }
+  if (this.left) this.left.traverseDepthFirst_inOrder(fn)
+  fn(this)
+  if (this.right) this.right.traverseDepthFirst_inOrder(fn)
+
 };
 // Time complexity:
 
 BinarySearchTree.prototype.traverseDepthFirst_preOrder = function(fn) {
   // implement me...
+  // first look at parent, then left then right
+  fn(this)
+  if (this.left) this.left.traverseDepthFirst_preOrder(fn)
+  if (this.right) this.right.traverseDepthFirst_preOrder(fn)
 };
 // Time complexity:
 
 BinarySearchTree.prototype.traverseDepthFirst_postOrder = function(fn) {
   // implement me...
+  // children first
+  if (this.left) this.left.traverseDepthFirst_postOrder(fn)
+  if (this.right) this.right.traverseDepthFirst_postOrder(fn)
+  fn(this)
 };
 // Time complexity:
 
@@ -93,3 +145,29 @@ BinarySearchTree.prototype.checkIfBalanced = function() {
   // implement me...
 };
 // Time complexity:
+
+
+let treedle = new BinarySearchTree(5)
+console.log(treedle)
+console.log(treedle.contains(5))
+console.log(treedle.contains(3))
+console.log('----------------------------------')
+treedle.insert(3)
+console.log(treedle)
+console.log('tree has 3? ', treedle.contains(3))
+console.log('tree has 2? ', treedle.contains(2))
+console.log('----------------------------------')
+treedle.insert(2)
+console.log(treedle)
+
+treedle.insert(8)
+console.log(treedle)
+console.log('---------------in Order-------------------')
+let transform = function(arg) {
+  console.log(`${arg.value}!!!`)
+}
+treedle.traverseDepthFirst_inOrder(transform)
+console.log('----------------pre Order------------------')
+treedle.traverseDepthFirst_preOrder(transform)
+console.log('---------------post Order-------------------')
+treedle.traverseDepthFirst_postOrder(transform)

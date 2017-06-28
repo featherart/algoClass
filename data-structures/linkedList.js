@@ -88,22 +88,48 @@ function Node(value) {
 function LinkedList(headValue) {
   if (headValue === undefined) console.log('Must provide value for first node');
   this.head = new Node(headValue);
+  this.tail = this.head
 }
 
 LinkedList.prototype.forEach = function(callback) {
   // implement me...
+  let node = this.head
+  while (node) {
+    callback(node.value)
+    node = node.next
+  }
 };
-// Time complexity:
+// Time complexity: O(n)
 
 LinkedList.prototype.print = function() {
   // implement me...
+  let result = []
+  this.forEach(function(value) {
+    result.push(value)
+  })
+  return result.join(', ')
 };
-// Time complexity:
+// Time complexity: O(n)
 
 LinkedList.prototype.insertAfter = function(node, value) {
   // implement me...
+  // if (this.node.next === this.tail) {
+  //   this.tail = new Node(value)
+  //   this.node.next = this.tail
+  // } else {
+  //   this.node.next = new Node(value)
+  //   // but then how to shift everything after?
+  // }
+
+  // this is better
+  let oldNext = node.next
+  let newNext = new Node(value)
+  node.next = newNext
+  newNext.next = oldNext
+  if (this.tail === node) this.tail = newNext
+  return newNext
 };
-// Time complexity:
+// Time complexity: O(c)
 
 LinkedList.prototype.removeAfter = function(node) {
   // implement me...
@@ -151,7 +177,9 @@ LinkedList.prototype.removeBefore = function(node) {
 
 2. Implement a queue using a linked list.
 
-3. Write a method that remove duplicates from an unsorted linked list. What is the time complexity? Re-implement the method without using any additional storage structure (constant space complexity). What is the time complexity?
+3. Write a method that remove duplicates from an unsorted linked list. What is the time complexity?
+Re-implement the method without using any additional storage structure (constant space complexity).
+What is the time complexity?
 
 4. Reverse a linked list. Do not use any additional storage structures.
 
