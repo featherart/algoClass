@@ -44,11 +44,13 @@ A binary tree is full if every node has either zero or two children (no nodes ha
 
 bsTree.checkIfBalanced()
 => true/false
-For this exercise, let's say that a tree is balanced if the minimum height and the maximum height differ by no more than 1. The height for a branch is the number of levels below the root.
+For this exercise, let's say that a tree is balanced if the minimum height and the maximum height differ by no more than 1.
+The height for a branch is the number of levels below the root.
 
 
 *** Additional Exercises:
-A binary search tree was created by iterating over an array and inserting each element into the tree. Given a binary search tree with no duplicates, how many different arrays would result in the creation of this tree.
+A binary search tree was created by iterating over an array and inserting each element into the tree.
+Given a binary search tree with no duplicates, how many different arrays would result in the creation of this tree.
 
 */
 
@@ -135,17 +137,125 @@ BinarySearchTree.prototype.traverseDepthFirst_postOrder = function(fn) {
 };
 // Time complexity:
 
+BinarySearchTree.prototype.removeNode = function(value) {
+  // first find value
+  // if value is greater than parent look right, otherwise look left
+  // recursively look each direction
+  // when found, remove
+  // if it was parent node, right and left sub trees need to point to a new parent
+  // if it was a leaf, no change in tree structure
+  // case 1: root node
+  // case 2: there is a child
+  // case 3: there are 2 children
+  if (this.value === value) { // root node
+    if (this.value.left && this.value.right) {
+      this.value = this.value.left
+      this.value.right = this.value.left
+      this.value.left = null
+      return // stop
+    } else if (this.value.left && !this.value.right) {
+      this.value.right = value
+    } else {
+      this.value.left = value
+    }
+  }
+  // case 2
+  if (this.value > value && this.left) {
+    console.log('in left: ', this.value, ' ', value)
+    this.left.removeNode(this.left)
+  }
+  if (this.value <= value && this.right) {
+    console.log('in right: ', this.value, ' ', value)
+    this.right.removeNode(this.right)
+  }
+  // case 3
 
-BinarySearchTree.prototype.checkIfFull = function() {
+}
+
+BinarySearchTree.prototype.removeNode2 = function(value) {
+  // first find value
+  // if value is greater than parent look right, otherwise look left
+  // recursively look each direction
+  // when found, remove
+  // if it was parent node, right and left sub trees need to point to a new parent
+  // if it was a leaf, no change in tree structure
+  // case 1: root node
+  // case 2: there is a child
+  // case 3: there are 2 children
+  if (this.value === value) {
+    if (this.value.left && this.value.right) {
+      this.value = this.value.left
+      this.value.right = this.value.left
+      this.value.left = null
+      return // stop
+    } else if (this.value.left && !this.value.right) {
+      this.value.right = value
+    } else {
+      this.value.left = value
+    }
+  }
+  if (this.value > value && this.left) {
+    console.log('in left: ', this.value, ' ', value)
+    this.left.removeNode(this.left)
+  }
+  if (this.value <= value && this.right) {
+    console.log('in right: ', this.value, ' ', value)
+    this.right.removeNode(this.right)
+  }
+}
+
+BinarySearchTree.prototype.deleteMin = function(parent) {
+  if (!this.left && !this.right) {
+    if(parent) {
+      parent.left = null
+    } else {
+    this.value = null
+    }
+  } else if (!this.left && this.right) {
+    if (parent) {
+      parent.left = this.right
+    } else {
+      this.value = this.right.value
+      this.right = this.right.right
+    }
+  }
+  if (this.left) this.left.deleteMin(this)
+}
+
+BinarySearchTree.prototype.deleteMax = function(parent) {
+  if (!this.right && !this.left) {
+    if (parent) {
+      parent.right = null
+    }
+  }
+  else if (!this.right && this.left) {
+    if (parent) {
+      parent.right = this.left
+    } else {
+      // max val is the root with subtree
+      this.value = this.left.valuethis.left = this.left.left
+    }
+  }
+  if (this.right) this.right.deleteMax(this)
+}
+
+// A binary tree is full if every node has either zero or two children (no nodes have only one child)
+BinarySearchTree.prototype.checkIfFull = function() { // ?
   // implement me...
 };
 // Time complexity:
 
+// For this exercise, let's say that a tree is balanced if the minimum height and the maximum height differ by no more than 1.
+// The height for a branch is the number of levels below the root.
 BinarySearchTree.prototype.checkIfBalanced = function() {
   // implement me...
+  
 };
 // Time complexity:
 
+
+
+// "Tests"
 
 let treedle = new BinarySearchTree(5)
 console.log(treedle)
@@ -158,6 +268,8 @@ console.log('tree has 3? ', treedle.contains(3))
 console.log('tree has 2? ', treedle.contains(2))
 console.log('----------------------------------')
 treedle.insert(2)
+treedle.insert(7)
+treedle.insert(11)
 console.log(treedle)
 
 treedle.insert(8)
@@ -170,4 +282,8 @@ treedle.traverseDepthFirst_inOrder(transform)
 console.log('----------------pre Order------------------')
 treedle.traverseDepthFirst_preOrder(transform)
 console.log('---------------post Order-------------------')
+treedle.traverseDepthFirst_postOrder(transform)
+
+console.log('---------------Remove 2-------------------')
+treedle.removeNode(2)
 treedle.traverseDepthFirst_postOrder(transform)

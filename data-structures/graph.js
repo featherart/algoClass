@@ -4,7 +4,8 @@ GRAPHS
 Abstract data type
 
 Basic Graph:
-Stores nodes (represented by any primitive value) and the neighbors for each node. This implementation represents a graph as an adjacency list (https://en.wikipedia.org/wiki/Adjacency_list).
+Stores nodes (represented by any primitive value) and the neighbors for each node. This implementation represents a graph
+as an adjacency list (https://en.wikipedia.org/wiki/Adjacency_list).
 
 Here's an example:
 1---2---3
@@ -47,9 +48,12 @@ Returns true if edge exists, false otherwise
 
 graph.forEach(callback)
 => undefined
-Traverse the graph and invoke the passed callback once for each node. The callback function receives the following for each node: node value, node Neighbors, all nodes.
+Traverse the graph and invoke the passed callback once for each node. The callback function receives the following for
+each node: node value, node Neighbors, all nodes.
 
-Implement traversal methods for depth-first and breadth-first traversal. The methods take a starting node and a callback that gets invoked for each node. The callback should receive two arguments: the node value and the distance (number of edges that separate the node from the starting node). See example usage below.
+Implement traversal methods for depth-first and breadth-first traversal. The methods take a starting node and a
+callback that gets invoked for each node. The callback should receive two arguments: the node value and the distance
+(number of edges that separate the node from the starting node). See example usage below.
 
 graph.traverseDepthFirst(value1, callback)
 => undefined
@@ -82,7 +86,9 @@ traverseBF should be [ [ 1, 0 ], [ 2, 1 ], [ 4, 1 ], [ 3, 2 ], [ 5, 3 ] ]
 
 *** Additional Exercises:
 
-Given a directed graph and two nodes in the graph, write a function that indicates whether there is a route between the two nodes. Bonus: rather than returning a boolean, have your function return the shortest distance between the two nodes (the number of edges that separate them).
+Given a directed graph and two nodes in the graph, write a function that indicates whether there is a route between the two nodes.
+Bonus: rather than returning a boolean, have your function return the shortest distance between the two nodes
+(the number of edges that separate them).
 
 */
 
@@ -93,6 +99,8 @@ function Graph () {
 
 Graph.prototype.addNode = function(value) {
   // implement me...
+  if (value === undefined) return
+  this._nodes[value] = this._nodes[value] || []
 };
 // Time complexity:
 
@@ -108,6 +116,11 @@ Graph.prototype.contains = function(value) {
 
 Graph.prototype.addEdge = function(value1, value2) {
   // implement me...
+  if (!this._nodes[value1] || !this._nodes[value2]) {
+    return 'invalide node value'
+  }
+  this._nodes[value1].push(value2)
+  this._nodes[value2].push(value1)
 };
 // Time complexity:
 
@@ -135,3 +148,13 @@ Graph.prototype.traverseBreadthFirst = function(value, fn) {
   // implement me...
 };
 // Time complexity:
+
+let graphic = new Graph()
+console.log(graphic)
+graphic.addNode('pickles')
+graphic.addNode('dobby')
+graphic.addNode('butter')
+graphic.addNode('gibson')
+console.log(graphic)
+graphic.addEdge('dobby', 'pickles')
+console.log(graphic)
